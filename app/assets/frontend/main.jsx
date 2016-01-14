@@ -21,6 +21,12 @@ class Main extends React.Component {
     this.setState({ tweetsList: newTweetsList });
   }
 
+  componentDidMount() {
+    $.ajax("/tweets")
+    .success(data => this.setState({ tweetsList: data }))
+    .error(error => console.log(error));
+  }
+
   render() {
     return (
       <div className="container">
@@ -32,10 +38,13 @@ class Main extends React.Component {
 }
 
 let documentReady = () => {
-  React.render(
-    <Main />,
-    document.getElementById('react')
-  );
+  let reactNode = document.getElementById('react');
+  if (reactNode) {
+    React.render(
+      <Main />,
+      reactNode
+    );
+  }
 };
 
 $(documentReady);

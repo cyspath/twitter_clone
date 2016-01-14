@@ -90,6 +90,17 @@
 	      this.setState({ tweetsList: newTweetsList });
 	    }
 	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
+	
+	      $.ajax("/tweets").success(function (data) {
+	        return _this2.setState({ tweetsList: data });
+	      }).error(function (error) {
+	        return console.log(error);
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return React.createElement(
@@ -105,7 +116,10 @@
 	}(React.Component);
 	
 	var documentReady = function documentReady() {
-	  React.render(React.createElement(Main, null), document.getElementById('react'));
+	  var reactNode = document.getElementById('react');
+	  if (reactNode) {
+	    React.render(React.createElement(Main, null), reactNode);
+	  }
 	};
 	
 	$(documentReady);

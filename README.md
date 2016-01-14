@@ -22,3 +22,8 @@ if webpack doesnt work... i used cmd
 
 
 using css framework materialize
+
+
+gem devise
+$ rails generate devise:install
+$ rails generate devise User
