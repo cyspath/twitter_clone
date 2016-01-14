@@ -51,9 +51,13 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _greet = __webpack_require__(/*! ./greet */ 1);
+	var _tweetBox = __webpack_require__(/*! ./components/tweetBox */ 1);
 	
-	var _greet2 = _interopRequireDefault(_greet);
+	var _tweetBox2 = _interopRequireDefault(_tweetBox);
+	
+	var _tweetList = __webpack_require__(/*! ./components/tweetList */ 2);
+	
+	var _tweetList2 = _interopRequireDefault(_tweetList);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -63,19 +67,37 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
+	var mockTweets = [{ id: 1, name: 'Mike Li', body: "whaever" }, { id: 2, name: 'Jane Sun', body: "Coolnes" }, { id: 3, name: 'Steph Qu', body: "rotflcat" }];
+	
 	var Main = function (_React$Component) {
 	  _inherits(Main, _React$Component);
 	
-	  function Main() {
+	  function Main(props) {
 	    _classCallCheck(this, Main);
 	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Main).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Main).call(this, props));
+	
+	    _this.state = { tweetsList: [] };
+	    return _this;
 	  }
 	
 	  _createClass(Main, [{
+	    key: 'addTweet',
+	    value: function addTweet(tweetToAdd) {
+	      var newTweetsList = this.state.tweetsList;
+	      newTweetsList.unshift({ id: Date.now(), name: 'Guest', body: tweetToAdd });
+	
+	      this.setState({ tweetsList: newTweetsList });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
-	      return React.createElement(_greet2.default, null);
+	      return React.createElement(
+	        'div',
+	        { className: 'container' },
+	        React.createElement(_tweetBox2.default, { sendTweet: this.addTweet.bind(this) }),
+	        React.createElement(_tweetList2.default, { tweets: this.state.tweetsList })
+	      );
 	    }
 	  }]);
 	
@@ -90,9 +112,141 @@
 
 /***/ },
 /* 1 */
-/*!***************************************!*\
-  !*** ./app/assets/frontend/greet.jsx ***!
-  \***************************************/
+/*!*****************************************************!*\
+  !*** ./app/assets/frontend/components/tweetBox.jsx ***!
+  \*****************************************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var TweetBox = function (_React$Component) {
+	  _inherits(TweetBox, _React$Component);
+	
+	  function TweetBox() {
+	    _classCallCheck(this, TweetBox);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(TweetBox).apply(this, arguments));
+	  }
+	
+	  _createClass(TweetBox, [{
+	    key: 'sendTweet',
+	    value: function sendTweet(event) {
+	      event.preventDefault();
+	      this.props.sendTweet(this.refs.tweetTextArea.value);
+	      this.refs.tweetTextArea.value = '';
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return React.createElement(
+	        'div',
+	        { className: 'row' },
+	        React.createElement(
+	          'form',
+	          { onSubmit: this.sendTweet.bind(this) },
+	          React.createElement(
+	            'div',
+	            { className: 'input-field' },
+	            React.createElement('textarea', { ref: 'tweetTextArea', className: 'materialize-textarea' }),
+	            React.createElement(
+	              'label',
+	              null,
+	              'What\'s happening?'
+	            ),
+	            React.createElement(
+	              'button',
+	              { type: 'submit', className: 'btn right' },
+	              'Tweet!'
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return TweetBox;
+	}(React.Component);
+	
+	exports.default = TweetBox;
+
+/***/ },
+/* 2 */
+/*!******************************************************!*\
+  !*** ./app/assets/frontend/components/tweetList.jsx ***!
+  \******************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _tweet = __webpack_require__(/*! ./tweet */ 3);
+	
+	var _tweet2 = _interopRequireDefault(_tweet);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var TweetList = function (_React$Component) {
+	  _inherits(TweetList, _React$Component);
+	
+	  function TweetList() {
+	    _classCallCheck(this, TweetList);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(TweetList).apply(this, arguments));
+	  }
+	
+	  _createClass(TweetList, [{
+	    key: "render",
+	    value: function render() {
+	      var tweets = this.props.tweets.map(function (tweet) {
+	        return React.createElement(_tweet2.default, _extends({ key: tweet.id }, tweet));
+	      });
+	      return React.createElement(
+	        "div",
+	        { className: "input-field" },
+	        React.createElement(
+	          "ul",
+	          { className: "collection" },
+	          tweets
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return TweetList;
+	}(React.Component);
+	
+	exports.default = TweetList;
+
+/***/ },
+/* 3 */
+/*!**************************************************!*\
+  !*** ./app/assets/frontend/components/tweet.jsx ***!
+  \**************************************************/
 /***/ function(module, exports) {
 
 	"use strict";
@@ -109,30 +263,44 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var Greet = function (_React$Component) {
-	  _inherits(Greet, _React$Component);
+	var Tweet = function (_React$Component) {
+	  _inherits(Tweet, _React$Component);
 	
-	  function Greet() {
-	    _classCallCheck(this, Greet);
+	  function Tweet() {
+	    _classCallCheck(this, Tweet);
 	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Greet).apply(this, arguments));
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Tweet).apply(this, arguments));
 	  }
 	
-	  _createClass(Greet, [{
+	  _createClass(Tweet, [{
 	    key: "render",
 	    value: function render() {
 	      return React.createElement(
-	        "h1",
-	        null,
-	        "Hello from watch!"
+	        "li",
+	        { className: "collection-item avatar" },
+	        React.createElement(
+	          "i",
+	          { className: "material-icon circle" },
+	          "person_pin"
+	        ),
+	        React.createElement(
+	          "span",
+	          { className: "title" },
+	          this.props.name
+	        ),
+	        React.createElement(
+	          "p",
+	          null,
+	          this.props.body
+	        )
 	      );
 	    }
 	  }]);
 	
-	  return Greet;
+	  return Tweet;
 	}(React.Component);
 	
-	exports.default = Greet;
+	exports.default = Tweet;
 
 /***/ }
 /******/ ]);
