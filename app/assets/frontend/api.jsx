@@ -1,13 +1,12 @@
-import ServerActions from "./actions/serverActions"
-export default {
+API = {
 
-  getAllTweets() {
+  getAllTweets: function() {
     $.get("/tweets")
     .success( rawTweets => ServerActions.receivedTweets(rawTweets) )
     .error(error => console.error());
   },
 
-  createTweet(body) {
+  createTweet: function(body) {
     $.post("/tweets", { body })
     .success( rawTweet => ServerActions.receivedOneTweets(rawTweet) )
     .error(error => console.error());

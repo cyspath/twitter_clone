@@ -1,6 +1,4 @@
-import API from "../API"
-
-export default {
+var TweetActions = {
 
   getAllTweets() {
     API.getAllTweets();
@@ -9,5 +7,5 @@ export default {
   sendTweet(body) {
     API.createTweet(body)
   }
-  
+
 }

@@ -1,8 +1,4 @@
-import TweetBox from './components/tweetBox';
-import TweetList from './components/tweetList';
 
-import TweetActions from "./actions/tweetActions";
-import TweetStore from "./stores/tweetStore";
 
 TweetActions.getAllTweets();
 
@@ -16,32 +12,30 @@ let getAppState = () => {
 //   { id: 3, name: 'Steph Qu', body: "rotflcat" }
 // ]
 
-class Main extends React.Component {
+var Main = React.createClass({
 
-  constructor(props) {
-    super(props);
-    // this.state = { tweetsList: [] }
-    this.state = getAppState();
-    this._onChange = this._onChange.bind(this)
-  }
 
-  componentDidMount() {
+  getInitialState: function() {
+    return (getAppState())
+  },
+
+  componentDidMount: function() {
     TweetStore.addChangeListener(this._onChange)
     // $.ajax("/tweets")
     // .success(data => this.setState(this.formattedTweets(data)) )
     // .error(error => console.log(error));
-  }
+  },
 
-  componentWillUnmount() {
+  componentWillUnmount: function() {
     TweetStore.removeChangeListener(this._onChange);
-  }
+  },
 
-  _onChange() {
+  _onChange: function() {
     // this.forceUpdate();
     this.setState(getAppState());
-  }
+  },
 
-  render() {
+  render: function() {
     return (
       <div className="container">
         <TweetBox />
@@ -49,7 +43,7 @@ class Main extends React.Component {
       </div>
     )
   }
-}
+})
 
 let documentReady = () => {
   let reactNode = document.getElementById('react');

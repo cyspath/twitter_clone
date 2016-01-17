@@ -1,15 +1,13 @@
-import TweetActions from "../actions/tweetActions";
+var TweetBox = React.createClass({
 
-export default class TweetBox extends React.Component {
-
-  sendTweet(event) {
+  sendTweet: function(event) {
     event.preventDefault();
 
     TweetActions.sendTweet(this.refs.tweetTextArea.value );
     this.refs.tweetTextArea.value = '';
-  }
+  },
 
-  render() {
+  render: function() {
     return (
       <div className="row" >
 
@@ -26,4 +24,4 @@ export default class TweetBox extends React.Component {
       </div>
     )
   }
-}
+});

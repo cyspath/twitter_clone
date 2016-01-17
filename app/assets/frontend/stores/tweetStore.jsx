@@ -3,7 +3,7 @@ import ActionTypes from "../constants"
 
 import { EventEmitter } from "events";
 
-let _tweets = [];
+var _tweets = [];
 const CHANGE_EVENT = "CHANGE";
 
 class TweetEventEmitter extends EventEmitter {
@@ -28,9 +28,9 @@ class TweetEventEmitter extends EventEmitter {
   }
 }
 
-let TweetStore = new TweetEventEmitter();
+var TweetStore = new TweetEventEmitter();
 
-AppDispatcher.register( action => {
+AppDispatcher.register( function(action) {
     switch(action.actionType) {
       case ActionTypes.RECEIVED_TWEETS:
         // acknowldege tweets
