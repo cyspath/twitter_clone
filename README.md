@@ -27,3 +27,11 @@ using css framework materialize
 gem devise
 $ rails generate devise:install
 $ rails generate devise User
+
+
+npm install --save react
+npm install --save react-dom
+
+
+npm install react-router
+npm install history

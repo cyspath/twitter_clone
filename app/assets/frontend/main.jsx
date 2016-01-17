@@ -1,61 +1,37 @@
-import TweetBox from './components/tweetBox';
-import TweetList from './components/tweetList';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-import TweetActions from "./actions/tweetActions";
-import TweetStore from "./stores/tweetStore";
+import Index from './components/index'
+import Follow from './components/follow'
 
-TweetActions.getAllTweets();
+import { Router, Route, Link } from 'react-router'
 
-let getAppState = () => {
-  return { tweetsList: TweetStore.getAll() }
-}
-
-// let mockTweets = [
-//   { id: 1, name: 'Mike Li', body: "whaever" },
-//   { id: 2, name: 'Jane Sun', body: "Coolnes" },
-//   { id: 3, name: 'Steph Qu', body: "rotflcat" }
-// ]
-
-class Main extends React.Component {
-
-  constructor(props) {
-    super(props);
-    // this.state = { tweetsList: [] }
-    this.state = getAppState();
-    this._onChange = this._onChange.bind(this)
-  }
-
-  componentDidMount() {
-    TweetStore.addChangeListener(this._onChange)
-    // $.ajax("/tweets")
-    // .success(data => this.setState(this.formattedTweets(data)) )
-    // .error(error => console.log(error));
-  }
-
-  componentWillUnmount() {
-    TweetStore.removeChangeListener(this._onChange);
-  }
-
-  _onChange() {
-    // this.forceUpdate();
-    this.setState(getAppState());
-  }
-
+class App extends React.Component {
   render() {
     return (
-      <div className="container">
-        <TweetBox />
-        <TweetList tweets={this.state.tweetsList}/>
+      <div>
+        {this.props.children}
       </div>
-    )
+    );
   }
 }
 
 let documentReady = () => {
   let reactNode = document.getElementById('react');
   if (reactNode) {
-    React.render(
-      <Main />,
+    ReactDOM.render(
+
+      <Router>
+
+        <Route component={App}>
+
+          <Route path="/" component={Index} />
+          <Route path="/follow" component={Follow} />
+
+        </Route>
+
+      </Router>,
+
       reactNode
     );
   }

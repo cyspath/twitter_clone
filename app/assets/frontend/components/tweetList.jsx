@@ -1,4 +1,7 @@
-import Tweet from "./tweet"
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+ import Tweet from "./tweet"
 
 export default class TweetList extends React.Component {
   render() {
