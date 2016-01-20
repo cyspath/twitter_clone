@@ -1,4 +1,4 @@
-import API from "../API"
+ import API from "../API"
 
 export default {
 
@@ -9,5 +9,5 @@ export default {
   sendTweet(body) {
     API.createTweet(body)
   }
-  
+
 }
